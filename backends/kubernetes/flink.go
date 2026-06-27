@@ -75,7 +75,7 @@ func buildFlinkDeployment(input activities.ApplyDeploymentInput, defaults map[st
 		flinkConfig[k] = v
 	}
 	flinkConfig["pipeline.max-parallelism"] = strconv.Itoa(spec.MaxParallelism)
-	flinkConfig["taskmanager.numberOfTaskSlots"] = strconv.Itoa(maxInt(spec.Resources.SlotsPerManager, 1))
+	flinkConfig["taskmanager.numberOfTaskSlots"] = strconv.Itoa(max(spec.Resources.SlotsPerManager, 1))
 	if localStoragePath != "" {
 		setIfAbsent(flinkConfig, "high-availability.type", "kubernetes")
 		setIfAbsent(flinkConfig, "high-availability.storageDir", "file:///flink-data/ha")
@@ -129,9 +129,9 @@ func buildFlinkDeployment(input activities.ApplyDeploymentInput, defaults map[st
 				},
 			},
 			"taskManager": map[string]interface{}{
-				"replicas": int64(maxInt(spec.Resources.TaskManagerCount, 1)),
+				"replicas": int64(max(spec.Resources.TaskManagerCount, 1)),
 				"resource": map[string]interface{}{
-					"memory": fmt.Sprintf("%dm", maxInt64(spec.Resources.TaskManagerMemory, 1024)),
+					"memory": fmt.Sprintf("%dm", max(spec.Resources.TaskManagerMemory, int64(1024))),
 					"cpu":    spec.Resources.TaskManagerCPU,
 				},
 			},
@@ -270,16 +270,3 @@ func stringOr(value, fallback string) string {
 	return value
 }
 
-func maxInt(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
-func maxInt64(a, b int64) int64 {
-	if a > b {
-		return a
-	}
-	return b
-}

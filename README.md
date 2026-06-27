@@ -1,4 +1,5 @@
 # FCP (Flink Control Plane)
+<img src="docs/assets/logo.png" width="120" height="120" align="right" alt="FCP Logo">
 
 FCP is an Apache-2.0-licensed Go library and reference control plane for operating stateful Apache Flink deployments with Temporal. It is designed for community adoption, commercial distributions, and enterprise-specific integrations without forking the deterministic workflow core.
 

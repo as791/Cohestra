@@ -8,7 +8,6 @@ import (
 	"context"
 	"crypto/rand"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
 	"log/slog"
 	"strings"
@@ -20,7 +19,6 @@ import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/dynamic"
 	"k8s.io/client-go/dynamic/dynamicinformer"
@@ -364,25 +362,11 @@ func (b *Backend) getFlinkDeployment(ctx context.Context, namespace, name string
 			if u, ok := obj.(*unstructured.Unstructured); ok {
 				return u, nil
 			}
-			if u, convErr := toUnstructured(obj); convErr == nil {
-				return u, nil
-			}
 		}
 	}
 	return b.dyn.Resource(flinkDeploymentGVR).Namespace(namespace).Get(ctx, name, metav1.GetOptions{})
 }
 
-func toUnstructured(obj runtime.Object) (*unstructured.Unstructured, error) {
-	raw, err := json.Marshal(obj)
-	if err != nil {
-		return nil, err
-	}
-	u := &unstructured.Unstructured{}
-	if err := u.UnmarshalJSON(raw); err != nil {
-		return nil, err
-	}
-	return u, nil
-}
 
 func randID() string {
 	buf := make([]byte, 8)

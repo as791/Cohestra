@@ -289,11 +289,53 @@ func encodeDeploymentListCursor(cursor deploymentListCursor) (string, error) {
 	return base64.RawURLEncoding.EncodeToString(data), nil
 }
 
-func mutatesRuntime(commandType domain.CommandType) bool {
-	switch commandType {
-	case domain.CommandRequestSavepoint, domain.CommandContinueAsNew:
-		return false
-	default:
-		return true
+func (s *Service) DescribeAll(ctx context.Context) ([]domain.DeploymentCardSummary, error) {
+	list, err := s.ListDeployments(ctx, domain.DeploymentListOptions{Limit: 500})
+	if err != nil {
+		return nil, err
 	}
+	cards := make([]domain.DeploymentCardSummary, len(list.Deployments))
+	type result struct {
+		index int
+		view  domain.DeploymentActorView
+		err   error
+	}
+	ch := make(chan result, len(list.Deployments))
+	for i, dep := range list.Deployments {
+		go func(idx int, d domain.DeploymentSummary) {
+			view, err := s.Describe(ctx, d.Identity)
+			ch <- result{idx, view, err}
+		}(i, dep)
+	}
+	for range list.Deployments {
+		r := <-ch
+		dep := list.Deployments[r.index]
+		card := domain.DeploymentCardSummary{
+			Identity:   dep.Identity,
+			WorkflowID: dep.WorkflowID,
+			StartedAt:  dep.StartedAt,
+		}
+		if r.err != nil {
+			card.Status = domain.ActorStatus("UNREACHABLE")
+			card.Error = r.err.Error()
+		} else {
+			card.Status = r.view.Status
+			card.Pending = r.view.PendingOperations
+			card.Error = r.view.LastError
+			if v := r.view.CurrentVersion; v != nil {
+				card.Version = v.VersionID
+				card.ImageDigest = v.Spec.ImageDigest
+				card.Parallelism = v.Spec.Parallelism
+				h := v.HealthSummary.Healthy
+				card.Healthy = &h
+				card.HealthMessage = v.HealthSummary.Message
+			}
+		}
+		cards[r.index] = card
+	}
+	return cards, nil
+}
+
+func mutatesRuntime(commandType domain.CommandType) bool {
+	return commandType != domain.CommandRequestSavepoint && commandType != domain.CommandContinueAsNew
 }

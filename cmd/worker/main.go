@@ -15,24 +15,23 @@ import (
 func main() {
 	cfg := config.Load()
 	temporalClient, err := client.Dial(client.Options{
-		HostPort:  cfg.TemporalAddress,
-		Namespace: cfg.TemporalNamespace,
+		HostPort:  cfg.Temporal.Address,
+		Namespace: cfg.Temporal.Namespace,
 	})
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer temporalClient.Close()
 
-	simulated := activities.NewSimulated(cfg.SimulationDelay)
-	activityWorker := worker.New(temporalClient, cfg.ActivityTaskQueue, worker.Options{})
+	simulated := activities.NewSimulated(cfg.Simulator.Delay)
+	activityWorker := worker.New(temporalClient, cfg.Actor.ActivityTaskQueue, worker.Options{})
 	fcp.RegisterActivities(activityWorker, simulated)
 	if err := activityWorker.Start(); err != nil {
 		log.Fatal(err)
 	}
 	defer activityWorker.Stop()
 
-	// Start one actor worker per shard task queue.
-	actorQueues := fcp.ActorTaskQueues(cfg.ActorTaskQueue, cfg.ActorShards)
+	actorQueues := fcp.ActorTaskQueues(cfg.Actor.TaskQueue, cfg.Actor.Shards)
 	for _, queue := range actorQueues[1:] {
 		actorWorker := worker.New(temporalClient, queue, worker.Options{})
 		fcp.RegisterWorkflows(actorWorker)
@@ -47,7 +46,7 @@ func main() {
 
 	slog.Info("Temporal workers started",
 		"actorTaskQueues", actorQueues,
-		"activityTaskQueue", cfg.ActivityTaskQueue,
+		"activityTaskQueue", cfg.Actor.ActivityTaskQueue,
 	)
 	if err := primary.Run(worker.InterruptCh()); err != nil {
 		slog.Error("worker stopped", "error", err)
