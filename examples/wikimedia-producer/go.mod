@@ -1,6 +1,6 @@
 module github.com/maestro-flink/maestro/examples/wikimedia-producer
 
-go 1.24.0
+go 1.25.4
 
 require github.com/segmentio/kafka-go v0.4.51
 
