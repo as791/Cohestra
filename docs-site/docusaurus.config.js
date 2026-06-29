@@ -11,8 +11,8 @@ const config = {
   url: 'https://cohestra.dev',
   baseUrl: '/',
 
-  organizationName: 'cohestra-project',
-  projectName: 'cohestra',
+  organizationName: 'as791',
+  projectName: 'Cohestra',
 
   onBrokenLinks: 'throw',
 
@@ -25,7 +25,7 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/cohestra-project/cohestra/tree/main/docs-site/',
+          editUrl: 'https://github.com/as791/Cohestra/tree/main/docs-site/',
         },
         blog: false,
         theme: {
@@ -57,7 +57,7 @@ const config = {
           { to: '/docs/sdk/go', label: 'Go SDK', position: 'left' },
           { to: '/docs/sdk/java', label: 'Java SDK', position: 'left' },
           {
-            href: 'https://github.com/cohestra-project/cohestra',
+            href: 'https://github.com/as791/Cohestra',
             label: 'GitHub',
             position: 'right',
           },
@@ -91,8 +91,8 @@ const config = {
           {
             title: 'Community',
             items: [
-              { label: 'GitHub', href: 'https://github.com/cohestra-project/cohestra' },
-              { label: 'Contributing', href: 'https://github.com/cohestra-project/cohestra/blob/main/CONTRIBUTING.md' },
+              { label: 'GitHub', href: 'https://github.com/as791/Cohestra' },
+              { label: 'Contributing', href: 'https://github.com/as791/Cohestra/blob/main/CONTRIBUTING.md' },
             ],
           },
         ],
