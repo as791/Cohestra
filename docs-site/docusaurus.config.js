@@ -56,6 +56,7 @@ const config = {
           { to: '/docs/sdk/python', label: 'Python SDK', position: 'left' },
           { to: '/docs/sdk/go', label: 'Go SDK', position: 'left' },
           { to: '/docs/sdk/java', label: 'Java SDK', position: 'left' },
+          { to: '/docs/api-reference', label: 'API', position: 'left' },
           {
             href: 'https://github.com/as791/Cohestra',
             label: 'GitHub',
@@ -76,7 +77,7 @@ const config = {
             title: 'Documentation',
             items: [
               { label: 'Getting Started', to: '/docs/getting-started' },
-              { label: 'Comparison', to: '/docs/comparison' },
+              { label: 'API Reference', to: '/docs/api-reference' },
               { label: 'Autoscaling', to: '/docs/autoscaling/overview' },
             ],
           },

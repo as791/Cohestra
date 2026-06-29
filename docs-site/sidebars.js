@@ -9,6 +9,7 @@ const sidebars = {
       label: 'SDKs',
       items: ['sdk/python', 'sdk/go', 'sdk/java'],
     },
+    'api-reference',
     {
       type: 'category',
       label: 'Autoscaling',
