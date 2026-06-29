@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Maestro API Reference</title>
+  <title>Cohestra API Reference</title>
   <link rel="icon" type="image/png" href="/ui/favicon.png">
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
   <style>
@@ -115,12 +115,12 @@
 <body>
   <div class="swagger-header">
     <div class="brand">
-      <img src="https://raw.githubusercontent.com/maestro-flink/maestro/main/internal/api/web/logo.svg" width="28"
-        height="28" alt="Maestro Logo" onerror="this.src='/ui/logo.svg'">
-      <span>Maestro API Reference</span>
+      <img src="https://raw.githubusercontent.com/cohestra-project/cohestra/main/internal/api/web/logo.svg" width="28"
+        height="28" alt="Cohestra Logo" onerror="this.src='/ui/logo.svg'">
+      <span>Cohestra API Reference</span>
     </div>
     <div style="display: flex; align-items: center; gap: 20px;">
-      <a href="https://maestrox.dev/docs">Documentation</a>
+      <a href="https://cohestra.dev/docs">Documentation</a>
       <button class="theme-toggle-btn" id="theme-toggle">Dark Mode</button>
     </div>
   </div>
@@ -132,7 +132,7 @@
   <script>
     window.onload = () => {
       const ui = SwaggerUIBundle({
-        url: 'https://raw.githubusercontent.com/maestro-flink/maestro/main/api/openapi.yaml',
+        url: 'https://raw.githubusercontent.com/cohestra-project/cohestra/main/api/openapi.yaml',
         dom_id: '#swagger-ui',
         presets: [
           SwaggerUIBundle.presets.apis,
@@ -146,7 +146,7 @@
       window.ui = ui;
 
       const toggle = document.getElementById("theme-toggle");
-      const saved = localStorage.getItem("maestro.theme");
+      const saved = localStorage.getItem("cohestra.theme");
       if (saved === "dark") {
         document.documentElement.setAttribute("data-theme", "dark");
         toggle.textContent = "Light Mode";
@@ -156,11 +156,11 @@
         const current = document.documentElement.getAttribute("data-theme");
         if (current === "dark") {
           document.documentElement.removeAttribute("data-theme");
-          localStorage.setItem("maestro.theme", "light");
+          localStorage.setItem("cohestra.theme", "light");
           toggle.textContent = "Dark Mode";
         } else {
           document.documentElement.setAttribute("data-theme", "dark");
-          localStorage.setItem("maestro.theme", "dark");
+          localStorage.setItem("cohestra.theme", "dark");
           toggle.textContent = "Light Mode";
         }
       };

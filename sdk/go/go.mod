@@ -1,3 +1,3 @@
-module github.com/maestro-flink/maestro-sdk-go
+module github.com/cohestra-project/cohestra-sdk-go
 
 go 1.22

@@ -1,4 +1,4 @@
-module github.com/maestro-flink/maestro
+module github.com/cohestra-project/cohestra
 
 go 1.25.0
 

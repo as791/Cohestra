@@ -1,7 +1,7 @@
 package workflows
 
 import (
-	"github.com/maestro-flink/maestro/domain"
+	"github.com/cohestra-project/cohestra/domain"
 	"go.temporal.io/sdk/workflow"
 )
 

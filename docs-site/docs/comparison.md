@@ -1,15 +1,15 @@
 ---
 sidebar_position: 3
-title: Maestro vs AWS MSF
+title: Cohestra vs AWS MSF
 ---
 
-# Maestro vs AWS Managed Service for Apache Flink
+# Cohestra vs AWS Managed Service for Apache Flink
 
-Maestro is a drop-in replacement for AWS MSF (Managed Service for Apache Flink) and similar managed Flink services. You bring your own Kubernetes cluster; Maestro provides the management layer.
+Cohestra is a drop-in replacement for AWS MSF (Managed Service for Apache Flink) and similar managed Flink services. You bring your own Kubernetes cluster; Cohestra provides the management layer.
 
 ## Feature Comparison
 
-| Feature | AWS MSF | Maestro |
+| Feature | AWS MSF | Cohestra |
 |---|---|---|
 | **Infrastructure** | AWS-managed, no cluster access | Any Kubernetes (EKS, GKE, AKS, on-prem) |
 | **Flink Version** | Managed, often months behind | Any version — you control the image |
@@ -31,38 +31,38 @@ Maestro is a drop-in replacement for AWS MSF (Managed Service for Apache Flink) 
 
 MSF charges per KPU (Kinesis Processing Unit). A modest job with 8 KPUs costs ~$630/month. At 50 jobs, that's $31,500/month in MSF fees alone — before data transfer and storage.
 
-With Maestro on EKS, the same workloads run on your existing nodes. Typical savings: **60-80%** at scale.
+With Cohestra on EKS, the same workloads run on your existing nodes. Typical savings: **60-80%** at scale.
 
 ### 2. Flink Version Control
 
-MSF locks you to specific Flink versions. When Flink 2.x shipped with major performance improvements, MSF users waited months. With Maestro, update your Docker image and deploy.
+MSF locks you to specific Flink versions. When Flink 2.x shipped with major performance improvements, MSF users waited months. With Cohestra, update your Docker image and deploy.
 
 ### 3. Custom Autoscaling
 
-MSF's autoscaling is a black box. Maestro's [Autoscaler SDK](./autoscaling/overview) lets you build autoscalers that react to your actual metrics — Kafka consumer lag from CloudWatch or Confluent, TaskManager CPU, custom business metrics.
+MSF's autoscaling is a black box. Cohestra's [Autoscaler SDK](./autoscaling/overview) lets you build autoscalers that react to your actual metrics — Kafka consumer lag from CloudWatch or Confluent, TaskManager CPU, custom business metrics.
 
 ### 4. Operational Transparency
 
-Every Maestro operation is a durable Temporal workflow. You can query any deployment's full history, see exactly what savepoint was used for a rollback, and audit who approved a production deploy. MSF gives you CloudWatch logs.
+Every Cohestra operation is a durable Temporal workflow. You can query any deployment's full history, see exactly what savepoint was used for a rollback, and audit who approved a production deploy. MSF gives you CloudWatch logs.
 
 ### 5. No Vendor Lock-in
 
-Switching away from MSF means rewriting CloudFormation templates, migration tooling, and operational runbooks. Maestro runs on standard Kubernetes — move between EKS, GKE, and on-prem with the same Helm chart and API.
+Switching away from MSF means rewriting CloudFormation templates, migration tooling, and operational runbooks. Cohestra runs on standard Kubernetes — move between EKS, GKE, and on-prem with the same Helm chart and API.
 
 ## Migration Guide
 
-### From MSF to Maestro on EKS
+### From MSF to Cohestra on EKS
 
-1. **Set up Maestro** — See [EKS Deployment Guide](./eks-deployment)
+1. **Set up Cohestra** — See [EKS Deployment Guide](./eks-deployment)
 2. **Containerize your Flink job** — Build a Docker image with your JAR
-3. **Register with Maestro** — `PUT /api/v1/deployments/{env}/{ns}/{name}`
+3. **Register with Cohestra** — `PUT /api/v1/deployments/{env}/{ns}/{name}`
 4. **Deploy** — `POST .../deploy` with your image digest
 5. **Set up autoscaling** — Replace KPU scaling with [custom autoscaler](./autoscaling/overview)
 6. **Decommission MSF** — Delete MSF application after verification
 
-### Mapping MSF Concepts to Maestro
+### Mapping MSF Concepts to Cohestra
 
-| MSF Concept | Maestro Equivalent |
+| MSF Concept | Cohestra Equivalent |
 |---|---|
 | Application | Deployment (registered via PUT) |
 | Snapshot | Savepoint (via POST .../savepoint) |

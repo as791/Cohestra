@@ -5,9 +5,9 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/maestro-flink/maestro"
-	"github.com/maestro-flink/maestro/activities"
-	"github.com/maestro-flink/maestro/internal/config"
+	"github.com/cohestra-project/cohestra"
+	"github.com/cohestra-project/cohestra/activities"
+	"github.com/cohestra-project/cohestra/internal/config"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
 )
@@ -25,16 +25,16 @@ func main() {
 
 	simulated := activities.NewSimulated(cfg.Simulator.Delay)
 	activityWorker := worker.New(temporalClient, cfg.Actor.ActivityTaskQueue, worker.Options{})
-	maestro.RegisterActivities(activityWorker, simulated)
+	cohestra.RegisterActivities(activityWorker, simulated)
 	if err := activityWorker.Start(); err != nil {
 		log.Fatal(err)
 	}
 	defer activityWorker.Stop()
 
-	actorQueues := maestro.ActorTaskQueues(cfg.Actor.TaskQueue, cfg.Actor.Shards)
+	actorQueues := cohestra.ActorTaskQueues(cfg.Actor.TaskQueue, cfg.Actor.Shards)
 	for _, queue := range actorQueues[1:] {
 		actorWorker := worker.New(temporalClient, queue, worker.Options{})
-		maestro.RegisterWorkflows(actorWorker)
+		cohestra.RegisterWorkflows(actorWorker)
 		if err := actorWorker.Start(); err != nil {
 			log.Fatal(err)
 		}
@@ -42,7 +42,7 @@ func main() {
 	}
 
 	primary := worker.New(temporalClient, actorQueues[0], worker.Options{})
-	maestro.RegisterWorkflows(primary)
+	cohestra.RegisterWorkflows(primary)
 
 	slog.Info("Temporal workers started",
 		"actorTaskQueues", actorQueues,

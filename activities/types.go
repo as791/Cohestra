@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/maestro-flink/maestro/domain"
+	"github.com/cohestra-project/cohestra/domain"
 )
 
 // Backend is the supported integration boundary for Kubernetes, GitOps, Flink,

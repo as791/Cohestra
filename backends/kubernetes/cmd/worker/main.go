@@ -1,4 +1,4 @@
-// Command worker runs Maestro Temporal workers backed by the real Kubernetes/Flink
+// Command worker runs Cohestra Temporal workers backed by the real Kubernetes/Flink
 // Operator adapter. It is the production-shaped counterpart to the simulated
 // ./cmd/worker in the core module.
 package main
@@ -13,8 +13,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/maestro-flink/maestro"
-	k8sbackend "github.com/maestro-flink/maestro/backends/kubernetes"
+	"github.com/cohestra-project/cohestra"
+	k8sbackend "github.com/cohestra-project/cohestra/backends/kubernetes"
 	"go.temporal.io/sdk/client"
 	"go.temporal.io/sdk/worker"
 	"k8s.io/client-go/rest"
@@ -62,17 +62,17 @@ func main() {
 	}
 
 	activityWorker := worker.New(temporalClient, env("ACTIVITY_TASK_QUEUE", "flink-control-activities"), workerOptions)
-	maestro.RegisterActivities(activityWorker, backend)
+	cohestra.RegisterActivities(activityWorker, backend)
 	if err := activityWorker.Start(); err != nil {
 		log.Fatalf("start activity worker: %v", err)
 	}
 	defer activityWorker.Stop()
 
 	// One actor worker per shard task queue.
-	actorQueues := maestro.ActorTaskQueues(env("ACTOR_TASK_QUEUE", "flink-control-actors"), intEnv("ACTOR_TASK_QUEUE_SHARDS", 1))
+	actorQueues := cohestra.ActorTaskQueues(env("ACTOR_TASK_QUEUE", "flink-control-actors"), intEnv("ACTOR_TASK_QUEUE_SHARDS", 1))
 	for _, queue := range actorQueues[1:] {
 		actorWorker := worker.New(temporalClient, queue, workerOptions)
-		maestro.RegisterWorkflows(actorWorker)
+		cohestra.RegisterWorkflows(actorWorker)
 		if err := actorWorker.Start(); err != nil {
 			log.Fatalf("start actor worker %s: %v", queue, err)
 		}
@@ -80,9 +80,9 @@ func main() {
 	}
 
 	primary := worker.New(temporalClient, actorQueues[0], workerOptions)
-	maestro.RegisterWorkflows(primary)
+	cohestra.RegisterWorkflows(primary)
 
-	slog.Info("kubernetes-backed Maestro workers started",
+	slog.Info("kubernetes-backed Cohestra workers started",
 		"actorTaskQueues", actorQueues,
 		"activityTaskQueue", env("ACTIVITY_TASK_QUEUE", "flink-control-activities"),
 	)

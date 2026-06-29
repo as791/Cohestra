@@ -1,6 +1,6 @@
-# Contributing to Maestro
+# Contributing to Cohestra
 
-Maestro accepts community and enterprise contributions under the Apache License 2.0.
+Cohestra accepts community and enterprise contributions under the Apache License 2.0.
 
 ## Before opening a change
 

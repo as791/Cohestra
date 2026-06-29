@@ -1,9 +1,9 @@
-module github.com/maestro-flink/maestro/backends/kubernetes
+module github.com/cohestra-project/cohestra/backends/kubernetes
 
 go 1.24.0
 
 require (
-	github.com/maestro-flink/maestro v0.0.0
+	github.com/cohestra-project/cohestra v0.0.0
 	go.temporal.io/sdk v1.36.0
 	k8s.io/api v0.33.0
 	k8s.io/apimachinery v0.33.0
@@ -64,4 +64,4 @@ require (
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
 
-replace github.com/maestro-flink/maestro => ../..
+replace github.com/cohestra-project/cohestra => ../..

@@ -5,7 +5,7 @@ title: Lambda Deployment
 
 # Deploying Autoscaler as AWS Lambda
 
-Run your Maestro autoscaler as a serverless Lambda function triggered by EventBridge on a schedule.
+Run your Cohestra autoscaler as a serverless Lambda function triggered by EventBridge on a schedule.
 
 ## SAM Template
 
@@ -14,10 +14,10 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
 Parameters:
-  MaestroUrl:
+  CohestraUrl:
     Type: String
-    Description: Maestro API endpoint
-  MaestroToken:
+    Description: Cohestra API endpoint
+  CohestraToken:
     Type: String
     NoEcho: true
   Environment:
@@ -39,11 +39,11 @@ Resources:
       MemorySize: 128
       Environment:
         Variables:
-          MAESTRO_URL: !Ref MaestroUrl
-          MAESTRO_TOKEN: !Ref MaestroToken
-          MAESTRO_ENV: !Ref Environment
-          MAESTRO_NAMESPACE: !Ref Namespace
-          MAESTRO_NAME: !Ref DeploymentName
+          COHESTRA_URL: !Ref CohestraUrl
+          COHESTRA_TOKEN: !Ref CohestraToken
+          COHESTRA_ENV: !Ref Environment
+          COHESTRA_NAMESPACE: !Ref Namespace
+          COHESTRA_NAME: !Ref DeploymentName
           MIN_PARALLELISM: "2"
           MAX_PARALLELISM: "64"
           LAG_PER_SLOT: "50000"
@@ -62,7 +62,7 @@ Resources:
 # autoscaler.py
 import math
 import os
-from maestro_sdk import MaestroClient, AutoscalerBase, ScaleDecision
+from cohestra_sdk import CohestraClient, AutoscalerBase, ScaleDecision
 
 class KafkaLagAutoscaler(AutoscalerBase):
     def __init__(self, client, env, ns, name):
@@ -89,15 +89,15 @@ class KafkaLagAutoscaler(AutoscalerBase):
         return None
 
 def handler(event, context):
-    client = MaestroClient(
-        os.environ["MAESTRO_URL"],
-        token=os.environ.get("MAESTRO_TOKEN"),
+    client = CohestraClient(
+        os.environ["COHESTRA_URL"],
+        token=os.environ.get("COHESTRA_TOKEN"),
     )
     scaler = KafkaLagAutoscaler(
         client,
-        os.environ.get("MAESTRO_ENV", "prod"),
-        os.environ.get("MAESTRO_NAMESPACE", "streaming"),
-        os.environ.get("MAESTRO_NAME"),
+        os.environ.get("COHESTRA_ENV", "prod"),
+        os.environ.get("COHESTRA_NAMESPACE", "streaming"),
+        os.environ.get("COHESTRA_NAME"),
     )
     result = scaler.execute()
     return {"scaled": result is not None, "result": result}
@@ -107,17 +107,17 @@ def handler(event, context):
 
 ```bash
 # Package
-pip install maestro-flink-sdk -t package/
+pip install cohestra-sdk -t package/
 cp autoscaler.py package/
 cd package && zip -r ../autoscaler.zip . && cd ..
 
 # Deploy with SAM
 sam deploy \
   --template-file template.yaml \
-  --stack-name maestro-autoscaler-orders \
+  --stack-name cohestra-autoscaler-orders \
   --parameter-overrides \
-    MaestroUrl=https://maestro.internal:8080 \
-    MaestroToken=your-token \
+    CohestraUrl=https://cohestra.internal:8080 \
+    CohestraToken=your-token \
     DeploymentName=orders \
   --capabilities CAPABILITY_IAM
 ```
@@ -130,8 +130,8 @@ If you don't want Lambda, deploy as a Kubernetes CronJob:
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: maestro-autoscaler-orders
-  namespace: maestro-system
+  name: cohestra-autoscaler-orders
+  namespace: cohestra-system
 spec:
   schedule: "*/1 * * * *"
   jobTemplate:
@@ -145,7 +145,7 @@ spec:
             args:
             - |
               import os, math
-              from maestro_sdk import MaestroClient, AutoscalerBase, ScaleDecision
+              from cohestra_sdk import CohestraClient, AutoscalerBase, ScaleDecision
               
               class Scaler(AutoscalerBase):
                   def evaluate(self, status):
@@ -156,16 +156,16 @@ spec:
                           return ScaleDecision(target, reason=f"lag={lag}")
                       return None
               
-              client = MaestroClient(os.environ["MAESTRO_URL"])
-              Scaler(client, os.environ["MAESTRO_ENV"], os.environ["MAESTRO_NAMESPACE"], os.environ["MAESTRO_NAME"]).execute()
+              client = CohestraClient(os.environ["COHESTRA_URL"])
+              Scaler(client, os.environ["COHESTRA_ENV"], os.environ["COHESTRA_NAMESPACE"], os.environ["COHESTRA_NAME"]).execute()
             env:
-            - name: MAESTRO_URL
-              value: "http://maestro-api.maestro-system:8080"
-            - name: MAESTRO_ENV
+            - name: COHESTRA_URL
+              value: "http://cohestra-api.cohestra-system:8080"
+            - name: COHESTRA_ENV
               value: "prod"
-            - name: MAESTRO_NAMESPACE
+            - name: COHESTRA_NAMESPACE
               value: "streaming"
-            - name: MAESTRO_NAME
+            - name: COHESTRA_NAME
               value: "orders"
           restartPolicy: OnFailure
 ```

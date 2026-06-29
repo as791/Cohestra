@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/maestro-flink/maestro/domain"
-	"github.com/maestro-flink/maestro/internal/auth"
+	"github.com/cohestra-project/cohestra/domain"
+	"github.com/cohestra-project/cohestra/internal/auth"
 )
 
 type ControlService interface {

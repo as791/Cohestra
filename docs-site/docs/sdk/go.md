@@ -6,7 +6,7 @@ title: Go SDK
 # Go SDK
 
 ```bash
-go get github.com/maestro-flink/maestro-sdk-go
+go get github.com/cohestra-project/cohestra-sdk-go
 ```
 
 Zero external dependencies — stdlib only.
@@ -16,11 +16,11 @@ Zero external dependencies — stdlib only.
 ```go
 package main
 
-import "github.com/maestro-flink/maestro-sdk-go/maestro"
+import "github.com/cohestra-project/cohestra-sdk-go/cohestra"
 
 func main() {
-    client := maestro.NewClient("https://maestro.yourcluster:8080",
-        maestro.WithToken("your-bearer-token"),
+    client := cohestra.NewClient("https://cohestra.yourcluster:8080",
+        cohestra.WithToken("your-bearer-token"),
     )
 }
 ```
@@ -31,23 +31,23 @@ func main() {
 d := client.Deployment("prod", "streaming", "orders")
 
 // Register
-d.Register(ctx, maestro.RegisterRequest{
+d.Register(ctx, cohestra.RegisterRequest{
     Owner:          "platform-team",
     ServiceAccount: "flink",
     NodePool:       "default",
 })
 
 // Deploy
-d.Deploy(ctx, maestro.DeployRequest{
+d.Deploy(ctx, cohestra.DeployRequest{
     Requester: "ci-pipeline",
     Approved:  true,
     Reason:    "release v2.3.1",
-    Spec: maestro.DeploymentSpec{
+    Spec: cohestra.DeploymentSpec{
         ImageDigest:    "registry.example/orders@sha256:abc123",
         FlinkVersion:   "2.2",
         Parallelism:    8,
         MaxParallelism: 128,
-        Resources: maestro.ResourceShape{
+        Resources: cohestra.ResourceShape{
             TaskManagerCPU:    2,
             TaskManagerMemory: 4096,
             TaskManagerCount:  2,
@@ -55,7 +55,7 @@ d.Deploy(ctx, maestro.DeployRequest{
         },
         JobArgs:     map[string]string{"source.topic": "orders"},
         FlinkConfig: map[string]string{"state.backend.type": "rocksdb"},
-        StateCompatibility: maestro.StateCompat{
+        StateCompatibility: cohestra.StateCompat{
             JobGraphCompatible: true,
             OperatorUIDsStable: true,
         },
@@ -69,7 +69,7 @@ view, err := d.WaitHealthy(ctx, 5*time.Minute)
 ## Scale
 
 ```go
-d.Scale(ctx, maestro.ScaleRequest{
+d.Scale(ctx, cohestra.ScaleRequest{
     Parallelism: 16,
     Approved:    true,
     Reason:      "traffic spike",
@@ -79,12 +79,12 @@ d.Scale(ctx, maestro.ScaleRequest{
 ## All Operations
 
 ```go
-d.Savepoint(ctx, maestro.SimpleRequest{Requester: "operator"})
-d.Suspend(ctx, maestro.SimpleRequest{Reason: "maintenance"})
-d.Resume(ctx, maestro.SimpleRequest{Requester: "operator"})
-d.Rollback(ctx, maestro.RollbackRequest{TargetVersion: 3, Approved: true})
-d.EnableAutoscaler(ctx, maestro.SimpleRequest{})
-d.FreezeAutoscaler(ctx, maestro.SimpleRequest{})
+d.Savepoint(ctx, cohestra.SimpleRequest{Requester: "operator"})
+d.Suspend(ctx, cohestra.SimpleRequest{Reason: "maintenance"})
+d.Resume(ctx, cohestra.SimpleRequest{Requester: "operator"})
+d.Rollback(ctx, cohestra.RollbackRequest{TargetVersion: 3, Approved: true})
+d.EnableAutoscaler(ctx, cohestra.SimpleRequest{})
+d.FreezeAutoscaler(ctx, cohestra.SimpleRequest{})
 ```
 
 ## Query State
@@ -98,19 +98,19 @@ fmt.Println(view["status"])
 versions, _ := d.Versions(ctx)
 
 // All deployments
-list, _ := client.ListDeployments(ctx, maestro.ListOptions{Environment: "prod"})
+list, _ := client.ListDeployments(ctx, cohestra.ListOptions{Environment: "prod"})
 cards, _ := client.Summary(ctx)
 ```
 
 ## Cluster Operations
 
 ```go
-client.FreezeCluster(ctx, "prod", "streaming", maestro.SimpleRequest{
+client.FreezeCluster(ctx, "prod", "streaming", cohestra.SimpleRequest{
     Requester: "incident-commander",
     Reason:    "active P0",
 })
 
-client.UnfreezeCluster(ctx, "prod", "streaming", maestro.SimpleRequest{
+client.UnfreezeCluster(ctx, "prod", "streaming", cohestra.SimpleRequest{
     Requester: "incident-commander",
 })
 ```
@@ -134,6 +134,6 @@ func (l *lagScaler) Evaluate(status map[string]any) *int {
 }
 
 // Run in a loop
-maestro.RunAutoscaler(ctx, client, "prod", "streaming", "orders",
+cohestra.RunAutoscaler(ctx, client, "prod", "streaming", "orders",
     &lagScaler{}, 60*time.Second)
 ```

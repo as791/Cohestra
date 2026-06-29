@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/maestro-flink/maestro/domain"
+	"github.com/cohestra-project/cohestra/domain"
 )
 
 // ValidateSpec performs the deterministic, backend-independent admission checks

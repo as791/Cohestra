@@ -1,32 +1,32 @@
 {{/* Common naming helpers */}}
-{{- define "maestro.name" -}}
+{{- define "cohestra.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "maestro.fullname" -}}
+{{- define "cohestra.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- printf "%s" (include "maestro.name" .) | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s" (include "cohestra.name" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
 
-{{- define "maestro.labels" -}}
-app.kubernetes.io/name: {{ include "maestro.name" . }}
+{{- define "cohestra.labels" -}}
+app.kubernetes.io/name: {{ include "cohestra.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" }}
 {{- end -}}
 
-{{- define "maestro.serviceAccountName" -}}
+{{- define "cohestra.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-{{- default (printf "%s" (include "maestro.fullname" .)) .Values.serviceAccount.name -}}
+{{- default (printf "%s" (include "cohestra.fullname" .)) .Values.serviceAccount.name -}}
 {{- else -}}
 {{- default "default" .Values.serviceAccount.name -}}
 {{- end -}}
 {{- end -}}
 
-{{- define "maestro.leaseNamespace" -}}
+{{- define "cohestra.leaseNamespace" -}}
 {{- default .Release.Namespace .Values.flink.leaseNamespace -}}
 {{- end -}}
 
@@ -34,9 +34,9 @@ helm.sh/chart: {{ printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" }}
 Resolve the effective Temporal frontend address. In bundled mode the in-chart
 Temporal service is used; otherwise the operator-supplied address.
 */}}
-{{- define "maestro.temporalAddress" -}}
+{{- define "cohestra.temporalAddress" -}}
 {{- if eq .Values.temporal.mode "bundled" -}}
-{{- printf "%s-temporal:7233" (include "maestro.fullname" .) -}}
+{{- printf "%s-temporal:7233" (include "cohestra.fullname" .) -}}
 {{- else -}}
 {{- required "temporal.address is required when temporal.mode=external" .Values.temporal.address -}}
 {{- end -}}
@@ -45,9 +45,9 @@ Temporal service is used; otherwise the operator-supplied address.
 {{/*
 Common environment shared by control-api and worker.
 */}}
-{{- define "maestro.commonEnv" -}}
+{{- define "cohestra.commonEnv" -}}
 - name: TEMPORAL_ADDRESS
-  value: {{ include "maestro.temporalAddress" . | quote }}
+  value: {{ include "cohestra.temporalAddress" . | quote }}
 - name: TEMPORAL_NAMESPACE
   value: {{ .Values.temporal.namespace | quote }}
 - name: ACTOR_TASK_QUEUE

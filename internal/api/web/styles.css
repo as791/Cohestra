@@ -1067,7 +1067,7 @@ dialog form { display: grid; gap: 14px; padding: 22px; }
   -webkit-backdrop-filter: blur(8px);
 }
 
-img.maestro-logo {
+img.cohestra-logo {
   border-radius: 6px;
   object-fit: contain;
   filter: drop-shadow(0 0 5px rgba(255, 107, 74, .55));

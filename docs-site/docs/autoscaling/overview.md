@@ -5,11 +5,11 @@ title: Autoscaling Overview
 
 # Custom Autoscaling
 
-Maestro replaces the Flink Kubernetes Operator's built-in autoscaler with a pluggable SDK-based approach. The Operator autoscaler has known stability issues — rescaling storms, flapping under transient load, and opaque decision-making. Maestro gives you full control.
+Cohestra replaces the Flink Kubernetes Operator's built-in autoscaler with a pluggable SDK-based approach. The Operator autoscaler has known stability issues — rescaling storms, flapping under transient load, and opaque decision-making. Cohestra gives you full control.
 
 ## Why Replace the Operator Autoscaler?
 
-| Issue | Operator Autoscaler | Maestro SDK Autoscaler |
+| Issue | Operator Autoscaler | Cohestra SDK Autoscaler |
 |---|---|---|
 | **Stability** | Known rescaling storms under bursty load | You control cooldown and thresholds |
 | **Metrics** | Limited to Flink JMX metrics | Any metric source (CloudWatch, Prometheus, Confluent, Datadog) |
@@ -20,7 +20,7 @@ Maestro replaces the Flink Kubernetes Operator's built-in autoscaler with a plug
 ## Architecture
 
 ```
-Metric Source                Your Autoscaler              Maestro API
+Metric Source                Your Autoscaler              Cohestra API
 (CloudWatch / Prometheus)  →  (Lambda / CronJob)  →  POST .../scale
      ↓                            ↓                       ↓
   Kafka lag                  evaluate()              DeploymentActor
@@ -46,7 +46,7 @@ The SDK handles:
 
 ### 1. Kafka Consumer Lag (Most Common)
 
-Best for Kafka-source jobs. Scale based on `kafkaLag` from Maestro health summary, CloudWatch MSK metrics, or Confluent Cloud metrics API.
+Best for Kafka-source jobs. Scale based on `kafkaLag` from Cohestra health summary, CloudWatch MSK metrics, or Confluent Cloud metrics API.
 
 See: [Kafka Lag Autoscaler](./kafka-lag)
 

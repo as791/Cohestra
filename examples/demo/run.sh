@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# End-to-end demo: drive every Maestro workflow transition against a live kind
+# End-to-end demo: drive every Cohestra workflow transition against a live kind
 # cluster running the Flink Operator 1.15 + Flink 2.2, asserting real
 # FlinkDeployment state after each step.
 #
 # Prereqs: the cluster is up (deploy/local 'make up'), plus kubectl, curl, jq.
 set -euo pipefail
 
-API="${MAESTRO_API:-http://localhost:8080}"
+API="${COHESTRA_API:-http://localhost:8080}"
 REGISTRY="${REGISTRY:-localhost:5001}"
-ENV="${MAESTRO_ENV:-integration}"
-NS="${MAESTRO_NS:-streaming}"
-NAME="${MAESTRO_NAME:-orders}"
+ENV="${COHESTRA_ENV:-integration}"
+NS="${COHESTRA_NS:-streaming}"
+NAME="${COHESTRA_NAME:-orders}"
 BASE="${API}/api/v1/deployments/${ENV}/${NS}/${NAME}"
 CLUSTER_BASE="${API}/api/v1/clusters/${ENV}/${NS}"
 
@@ -60,8 +60,8 @@ good_spec() { # <parallelism>
   "imageDigest": "${GOOD_DIGEST}",
   "flinkVersion": "2.2",
   "jobArgs": {
-    "maestro.entryClass": "com.example.maestro.WikiEditCount",
-    "bootstrap.servers": "maestro-kafka-bootstrap.kafka.svc:9092",
+    "cohestra.entryClass": "com.example.cohestra.WikiEditCount",
+    "bootstrap.servers": "cohestra-kafka-bootstrap.kafka.svc:9092",
     "source.topic": "wikimedia.recentchange"
   },
   "flinkConfig": { "taskmanager.numberOfTaskSlots": "2" },

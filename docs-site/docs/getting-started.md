@@ -5,7 +5,7 @@ title: Getting Started
 
 # Getting Started
 
-Deploy Maestro on your Kubernetes cluster and run your first Flink job in under 10 minutes.
+Deploy Cohestra on your Kubernetes cluster and run your first Flink job in under 10 minutes.
 
 ## Prerequisites
 
@@ -14,33 +14,33 @@ Deploy Maestro on your Kubernetes cluster and run your first Flink job in under 
 - Helm 3.x
 - kubectl configured for your cluster
 
-## 1. Install Maestro
+## 1. Install Cohestra
 
 ```bash
-helm repo add maestro https://maestro-flink.github.io/charts
-helm install maestro maestro/maestro \
-  --namespace maestro-system --create-namespace \
+helm repo add cohestra https://cohestra-project.github.io/charts
+helm install cohestra cohestra/cohestra \
+  --namespace cohestra-system --create-namespace \
   --set temporal.enabled=true \
   --set temporal.web.enabled=true
 ```
 
 This deploys:
-- **Maestro API Server** — REST API + Operations Console on port 8080
-- **Maestro Worker** — Temporal workflow and activity worker
+- **Cohestra API Server** — REST API + Operations Console on port 8080
+- **Cohestra Worker** — Temporal workflow and activity worker
 - **Temporal Server** — durable workflow engine (bundled for trials; bring your own for production)
 - **Temporal Web UI** — workflow visibility on port 8088
 
 Verify:
 
 ```bash
-kubectl get pods -n maestro-system
+kubectl get pods -n cohestra-system
 curl http://localhost:8080/healthz
 # {"status":"ok"}
 ```
 
 ## 2. Register a Deployment
 
-Tell Maestro about the Flink job you want to manage:
+Tell Cohestra about the Flink job you want to manage:
 
 ```bash
 curl -X PUT http://localhost:8080/api/v1/deployments/prod/streaming/orders \
@@ -55,9 +55,9 @@ curl -X PUT http://localhost:8080/api/v1/deployments/prod/streaming/orders \
 Or with the Python SDK:
 
 ```python
-from maestro_sdk import MaestroClient
+from cohestra_sdk import CohestraClient
 
-client = MaestroClient("http://localhost:8080")
+client = CohestraClient("http://localhost:8080")
 client.register("prod", "streaming", "orders", owner="platform-team")
 ```
 
@@ -89,7 +89,7 @@ curl -X POST http://localhost:8080/api/v1/deployments/prod/streaming/orders/depl
   }'
 ```
 
-Maestro will:
+Cohestra will:
 1. Take a savepoint of the running job (if upgrading)
 2. Apply the new FlinkDeployment spec via the Kubernetes Operator
 3. Wait for the job to reach RUNNING state
@@ -125,11 +125,11 @@ Response:
 
 ## 5. Open the Operations Console
 
-Navigate to `http://localhost:8080` to see the Maestro dashboard with deployment cards, version history, and operation logs.
+Navigate to `http://localhost:8080` to see the Cohestra dashboard with deployment cards, version history, and operation logs.
 
 ## Next Steps
 
 - [Scale your deployment](./api-reference#scale)
 - [Set up custom autoscaling](./autoscaling/overview)
 - [Deploy on EKS](./eks-deployment)
-- [Compare Maestro vs AWS MSF](./comparison)
+- [Compare Cohestra vs AWS MSF](./comparison)

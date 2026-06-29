@@ -2,17 +2,17 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Maestro — Flink Control Plane',
+  title: 'Cohestra — Control Plane',
   tagline: 'Open-source deployment management for Apache Flink on any Kubernetes cluster',
   favicon: 'img/favicon.png',
 
   future: { v4: true },
 
-  url: 'https://maestrox.dev',
+  url: 'https://cohestra.dev',
   baseUrl: '/',
 
-  organizationName: 'maestro-flink',
-  projectName: 'maestro',
+  organizationName: 'cohestra-project',
+  projectName: 'cohestra',
 
   onBrokenLinks: 'throw',
 
@@ -25,7 +25,7 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/maestro-flink/maestro/tree/main/docs-site/',
+          editUrl: 'https://github.com/cohestra-project/cohestra/tree/main/docs-site/',
         },
         blog: false,
         theme: {
@@ -38,15 +38,15 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      image: 'img/maestro-social-card.png',
+      image: 'img/cohestra-social-card.png',
       colorMode: {
         defaultMode: 'light',
         respectPrefersColorScheme: true,
       },
       navbar: {
-        title: 'Maestro',
+        title: 'Cohestra',
         logo: {
-          alt: 'Maestro Logo',
+          alt: 'Cohestra Logo',
           src: 'img/logo.png',
         },
         items: [
@@ -56,7 +56,7 @@ const config = {
           { to: '/docs/sdk/java', label: 'Java SDK', position: 'left' },
           { to: '/docs/api-reference', label: 'API', position: 'left' },
           {
-            href: 'https://github.com/maestro-flink/maestro',
+            href: 'https://github.com/cohestra-project/cohestra',
             label: 'GitHub',
             position: 'right',
           },
@@ -84,12 +84,12 @@ const config = {
           {
             title: 'Community',
             items: [
-              { label: 'GitHub', href: 'https://github.com/maestro-flink/maestro' },
-              { label: 'Contributing', href: 'https://github.com/maestro-flink/maestro/blob/main/CONTRIBUTING.md' },
+              { label: 'GitHub', href: 'https://github.com/cohestra-project/cohestra' },
+              { label: 'Contributing', href: 'https://github.com/cohestra-project/cohestra/blob/main/CONTRIBUTING.md' },
             ],
           },
         ],
-        copyright: `Copyright ${new Date().getFullYear()} Maestro Contributors. Apache-2.0 Licensed.`,
+        copyright: `Copyright ${new Date().getFullYear()} Cohestra Contributors. Apache-2.0 Licensed.`,
       },
       prism: {
         theme: prismThemes.github,

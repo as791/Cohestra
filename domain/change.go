@@ -130,4 +130,3 @@ func hashMap(values map[string]string) string {
 	}
 	return hash(ordered)
 }
-

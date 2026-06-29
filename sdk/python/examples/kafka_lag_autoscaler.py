@@ -1,15 +1,15 @@
 """
-Kafka-lag-based autoscaler for Maestro — runs as AWS Lambda or standalone.
+Kafka-lag-based autoscaler for Cohestra — runs as AWS Lambda or standalone.
 
 Scales Flink parallelism proportionally to Kafka consumer lag. Drop this
 into a Lambda triggered by EventBridge every 60s, or run it as a script.
 
 Environment variables:
-    MAESTRO_URL         — Maestro API endpoint (e.g. https://maestro.internal:8080)
-    MAESTRO_TOKEN       — Bearer token for auth (optional)
-    MAESTRO_ENV         — deployment environment (e.g. prod)
-    MAESTRO_NAMESPACE   — Kubernetes namespace (e.g. streaming)
-    MAESTRO_NAME        — deployment name (e.g. orders)
+    COHESTRA_URL         — Cohestra API endpoint (e.g. https://cohestra.internal:8080)
+    COHESTRA_TOKEN       — Bearer token for auth (optional)
+    COHESTRA_ENV         — deployment environment (e.g. prod)
+    COHESTRA_NAMESPACE   — Kubernetes namespace (e.g. streaming)
+    COHESTRA_NAME        — deployment name (e.g. orders)
     MIN_PARALLELISM — floor (default: 2)
     MAX_PARALLELISM — ceiling (default: 64)
     LAG_PER_SLOT    — target lag per parallelism unit (default: 50000)
@@ -21,13 +21,13 @@ import logging
 import math
 import os
 
-from maestro_sdk import MaestroClient, AutoscalerBase, ScaleDecision
+from cohestra_sdk import CohestraClient, AutoscalerBase, ScaleDecision
 
 logging.basicConfig(level=logging.INFO)
 
 
 class KafkaLagAutoscaler(AutoscalerBase):
-    def __init__(self, client: MaestroClient, env: str, namespace: str, name: str):
+    def __init__(self, client: CohestraClient, env: str, namespace: str, name: str):
         super().__init__(client, env, namespace, name)
         self.min_parallelism = int(os.environ.get("MIN_PARALLELISM", "2"))
         self.max_parallelism = int(os.environ.get("MAX_PARALLELISM", "64"))
@@ -64,15 +64,15 @@ class KafkaLagAutoscaler(AutoscalerBase):
 
 
 def _build() -> KafkaLagAutoscaler:
-    client = MaestroClient(
-        base_url=os.environ.get("MAESTRO_URL", "http://localhost:8080"),
-        token=os.environ.get("MAESTRO_TOKEN"),
+    client = CohestraClient(
+        base_url=os.environ.get("COHESTRA_URL", "http://localhost:8080"),
+        token=os.environ.get("COHESTRA_TOKEN"),
     )
     return KafkaLagAutoscaler(
         client,
-        env=os.environ.get("MAESTRO_ENV", "integration"),
-        namespace=os.environ.get("MAESTRO_NAMESPACE", "streaming"),
-        name=os.environ.get("MAESTRO_NAME", "orders"),
+        env=os.environ.get("COHESTRA_ENV", "integration"),
+        namespace=os.environ.get("COHESTRA_NAMESPACE", "streaming"),
+        name=os.environ.get("COHESTRA_NAME", "orders"),
     )
 
 

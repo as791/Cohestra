@@ -2,15 +2,15 @@
 
 **Status:** Accepted
 **Date:** 2026-06-25
-**Deciders:** Maestro maintainers
+**Deciders:** Cohestra maintainers
 
 ## Context
 
-Maestro must support community deployments and enterprises with proprietary infrastructure integrations. The original implementation placed all packages under `internal`, preventing reuse, and coupled worker registration to the simulated backend.
+Cohestra must support community deployments and enterprises with proprietary infrastructure integrations. The original implementation placed all packages under `internal`, preventing reuse, and coupled worker registration to the simulated backend.
 
 ## Decision
 
-Publish a vendor-neutral core at `github.com/maestro-flink/maestro`.
+Publish a vendor-neutral core at `github.com/cohestra-project/cohestra`.
 
 - `domain`, `workflows`, `activities`, and `control` are supported public packages.
 - `activities.Backend` is the external-integration contract.

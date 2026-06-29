@@ -7,8 +7,8 @@ title: Java SDK
 
 ```xml
 <dependency>
-  <groupId>io.maestro</groupId>
-  <artifactId>maestro-sdk</artifactId>
+  <groupId>io.cohestra</groupId>
+  <artifactId>cohestra-sdk</artifactId>
   <version>0.1.0</version>
 </dependency>
 ```
@@ -18,11 +18,11 @@ Java 17+, zero external dependencies (uses `java.net.http.HttpClient`).
 ## Client Setup
 
 ```java
-import io.maestro.sdk.*;
+import io.cohestra.sdk.*;
 
-var client = new MaestroClient("https://maestro.yourcluster:8080", "your-bearer-token");
+var client = new CohestraClient("https://cohestra.yourcluster:8080", "your-bearer-token");
 // or without auth:
-var client = new MaestroClient("http://localhost:8080");
+var client = new CohestraClient("http://localhost:8080");
 ```
 
 ## Register and Deploy
@@ -95,15 +95,15 @@ client.clusterUnfreeze("prod", "streaming", "incident-commander", "resolved");
 ## Custom Autoscaler
 
 ```java
-import io.maestro.sdk.AutoscalerBase;
+import io.cohestra.sdk.AutoscalerBase;
 
 public class LagAutoscaler extends AutoscalerBase {
-    public LagAutoscaler(MaestroClient client) {
+    public LagAutoscaler(CohestraClient client) {
         super(client, "prod", "streaming", "orders");
     }
 
     @Override
-    protected Integer evaluate(MaestroResponse status) {
+    protected Integer evaluate(CohestraResponse status) {
         var cv = status.getObject("currentVersion");
         long lag = cv.getObject("healthSummary").getLong("kafkaLag");
         int current = cv.getObject("spec").getInt("parallelism");

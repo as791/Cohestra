@@ -1,6 +1,6 @@
-# Build the Kubernetes-backed Maestro worker.
+# Build the Kubernetes-backed Cohestra worker.
 # Build context MUST be the repository root so both modules and go.work are present:
-#   docker build -f backends/kubernetes/Dockerfile -t maestro-k8s-worker .
+#   docker build -f backends/kubernetes/Dockerfile -t cohestra-k8s-worker .
 FROM golang:1.24-alpine AS build
 WORKDIR /src
 COPY . .

@@ -8,8 +8,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/maestro-flink/maestro/domain"
-	"github.com/maestro-flink/maestro/workflows"
+	"github.com/cohestra-project/cohestra"
+	"github.com/cohestra-project/cohestra/domain"
+	"github.com/cohestra-project/cohestra/workflows"
 	"go.temporal.io/api/serviceerror"
 	workflowservice "go.temporal.io/api/workflowservice/v1"
 	"go.temporal.io/sdk/client"
@@ -38,7 +39,7 @@ func NewService(temporalClient client.Client, actorTaskQueue, activityTaskQueue 
 
 // actorQueueFor returns the sharded actor task queue that owns a workflow ID.
 func (s *Service) actorQueueFor(workflowID string) string {
-	return maestrox.devardTaskQueue(s.actorTaskQueue, s.actorShards, workflowID)
+	return cohestra.ShardTaskQueue(s.actorTaskQueue, s.actorShards, workflowID)
 }
 
 func (s *Service) EnsureDeploymentActor(ctx context.Context, identity domain.DeploymentIdentity, policy *domain.Policy) error {

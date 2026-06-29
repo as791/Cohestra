@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Maestro API Reference</title>
+  <title>Cohestra API Reference</title>
   <link rel="icon" type="image/png" href="/ui/favicon.png">
   <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
   <style>
@@ -96,8 +96,8 @@
 <body>
   <div class="swagger-header">
     <div class="brand">
-      <img src="/ui/logo.svg" width="28" height="28" alt="Maestro Logo">
-      <span>Maestro API Reference</span>
+      <img src="/ui/logo.svg" width="28" height="28" alt="Cohestra Logo">
+      <span>Cohestra API Reference</span>
     </div>
     <div style="display: flex; align-items: center; gap: 20px;">
       <a href="/">Console</a>
@@ -126,7 +126,7 @@
       window.ui = ui;
 
       const toggle = document.getElementById("theme-toggle");
-      const saved = localStorage.getItem("maestro.theme");
+      const saved = localStorage.getItem("cohestra.theme");
       if (saved === "dark") {
         document.documentElement.setAttribute("data-theme", "dark");
         toggle.textContent = "Light Mode";
@@ -136,11 +136,11 @@
         const current = document.documentElement.getAttribute("data-theme");
         if (current === "dark") {
           document.documentElement.removeAttribute("data-theme");
-          localStorage.setItem("maestro.theme", "light");
+          localStorage.setItem("cohestra.theme", "light");
           toggle.textContent = "Dark Mode";
         } else {
           document.documentElement.setAttribute("data-theme", "dark");
-          localStorage.setItem("maestro.theme", "dark");
+          localStorage.setItem("cohestra.theme", "dark");
           toggle.textContent = "Light Mode";
         }
       };

@@ -1,10 +1,10 @@
 // Theme: light default, persist to localStorage
 (function initTheme() {
-  const saved = localStorage.getItem("maestro.theme");
+  const saved = localStorage.getItem("cohestra.theme");
   if (saved === "dark") document.documentElement.setAttribute("data-theme", "dark");
 })();
 
-const storageKey = "maestro.console.targets.v1";
+const storageKey = "cohestra.console.targets.v1";
 
 const state = {
   targets: loadTargets(),
@@ -220,7 +220,7 @@ function renderTargets() {
     <div class="target-row">
       <button class="target ${state.activeTarget && targetKey(target) === targetKey(state.activeTarget) ? "active" : ""}"
         data-target="${targetKey(target)}">
-        <img src="/ui/logo-sm.png" class="maestro-logo" width="24" height="24" alt="" style="flex-shrink:0;border-radius:6px;">
+        <img src="/ui/logo-sm.png" class="cohestra-logo" width="24" height="24" alt="" style="flex-shrink:0;border-radius:6px;">
         <div class="target-details">
           <strong>${escapeHTML(target.name)}</strong>
           <small>${escapeHTML(target.environment)} / ${escapeHTML(target.namespace)}</small>
@@ -729,7 +729,7 @@ async function fetchYAML(url) {
   return {
     name: get(/^\s{2,4}name:\s+(.+)$/m),
     namespace: get(/^\s{2,4}namespace:\s+(.+)$/m),
-    environment: get(/(?:maestro\.flink\/environment|flink\.io\/environment|environment):\s+(.+)/),
+    environment: get(/(?:cohestra\.flink\/environment|flink\.io\/environment|environment):\s+(.+)/),
     serviceAccount: get(/serviceAccountName?:\s+(.+)/),
   };
 }
@@ -813,11 +813,11 @@ document.querySelector("#theme-toggle").addEventListener("click", () => {
   const dark = document.documentElement.getAttribute("data-theme") === "dark";
   if (dark) {
     document.documentElement.removeAttribute("data-theme");
-    localStorage.setItem("maestro.theme", "light");
+    localStorage.setItem("cohestra.theme", "light");
     document.querySelector("#theme-toggle").textContent = "☀️";
   } else {
     document.documentElement.setAttribute("data-theme", "dark");
-    localStorage.setItem("maestro.theme", "dark");
+    localStorage.setItem("cohestra.theme", "dark");
     document.querySelector("#theme-toggle").textContent = "🌙";
   }
 });

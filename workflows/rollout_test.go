@@ -4,8 +4,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/maestro-flink/maestro/activities"
-	"github.com/maestro-flink/maestro/domain"
+	"github.com/cohestra-project/cohestra/activities"
+	"github.com/cohestra-project/cohestra/domain"
 	"github.com/stretchr/testify/require"
 	"go.temporal.io/sdk/testsuite"
 )

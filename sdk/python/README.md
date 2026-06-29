@@ -1,21 +1,21 @@
-# maestro-flink-sdk
+# cohestra-sdk
 
-Python SDK for the **Maestro Flink Control Plane** — deploy, scale, rollback, and observe Apache Flink jobs on any Kubernetes cluster.
+Python SDK for the **Cohestra control plane** — deploy, scale, rollback, and observe Apache Flink jobs on any Kubernetes cluster.
 
 ## Install
 
 ```bash
-pip install maestro-flink-sdk
+pip install cohestra-sdk
 # with Lambda extras:
-pip install maestro-flink-sdk[lambda]
+pip install cohestra-sdk[lambda]
 ```
 
 ## Quick start
 
 ```python
-from maestro_sdk import MaestroClient, DeploymentSpec, ResourceShape
+from cohestra_sdk import CohestraClient, DeploymentSpec, ResourceShape
 
-client = MaestroClient("https://maestro.yourcluster.internal:8080", token="...")
+client = CohestraClient("https://cohestra.yourcluster.internal:8080", token="...")
 
 # Register a deployment
 client.register("prod", "streaming", "orders", owner="platform-team")
@@ -59,7 +59,7 @@ orders.freeze_autoscaler()
 ## Custom autoscaler
 
 ```python
-from maestro_sdk import MaestroClient, AutoscalerBase, ScaleDecision
+from cohestra_sdk import CohestraClient, AutoscalerBase, ScaleDecision
 
 class MyAutoscaler(AutoscalerBase):
     def evaluate(self, status):
@@ -69,7 +69,7 @@ class MyAutoscaler(AutoscalerBase):
             return ScaleDecision(current * 2, reason=f"lag={lag}")
         return None
 
-client = MaestroClient("http://localhost:8080")
+client = CohestraClient("http://localhost:8080")
 scaler = MyAutoscaler(client, "prod", "streaming", "orders")
 scaler.run_loop(interval=60)
 ```

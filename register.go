@@ -1,15 +1,15 @@
-// Package maestro provides registration helpers for embedding the Flink Control
+// Package cohestra provides registration helpers for embedding the Flink Control
 // Plane workflows and activities in a Temporal worker.
-package maestro
+package cohestra
 
 import (
-	"github.com/maestro-flink/maestro/activities"
-	"github.com/maestro-flink/maestro/workflows"
+	"github.com/cohestra-project/cohestra/activities"
+	"github.com/cohestra-project/cohestra/workflows"
 	"go.temporal.io/sdk/activity"
 	"go.temporal.io/sdk/worker"
 )
 
-// RegisterWorkflows installs all stable Maestro workflow entry points.
+// RegisterWorkflows installs all stable Cohestra workflow entry points.
 func RegisterWorkflows(w worker.Worker) {
 	w.RegisterWorkflow(workflows.ClusterActorWorkflow)
 	w.RegisterWorkflow(workflows.DeploymentActorWorkflow)

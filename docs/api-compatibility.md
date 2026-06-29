@@ -1,6 +1,6 @@
 # API and workflow compatibility
 
-Maestro follows semantic versioning after `v1.0.0`. Before `v1`, minor releases may contain breaking changes, which must be called out in release notes.
+Cohestra follows semantic versioning after `v1.0.0`. Before `v1`, minor releases may contain breaking changes, which must be called out in release notes.
 
 ## Stable surface
 

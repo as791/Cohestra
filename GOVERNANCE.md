@@ -1,6 +1,6 @@
 # Governance
 
-Maestro uses a maintainer-led, consensus-seeking model.
+Cohestra uses a maintainer-led, consensus-seeking model.
 
 ## Roles
 

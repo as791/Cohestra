@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: maestro-system
+  name: cohestra-system
 ---
 apiVersion: v1
 kind: Namespace

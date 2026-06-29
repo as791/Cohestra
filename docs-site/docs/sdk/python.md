@@ -6,16 +6,16 @@ title: Python SDK
 # Python SDK
 
 ```bash
-pip install maestro-flink-sdk
+pip install cohestra-sdk
 ```
 
 ## Client Setup
 
 ```python
-from maestro_sdk import MaestroClient
+from cohestra_sdk import CohestraClient
 
-client = MaestroClient(
-    base_url="https://maestro.yourcluster:8080",
+client = CohestraClient(
+    base_url="https://cohestra.yourcluster:8080",
     token="your-bearer-token",  # optional
 )
 ```
@@ -33,7 +33,7 @@ client.register("prod", "streaming", "orders",
 ## Deploy
 
 ```python
-from maestro_sdk import DeploymentSpec, ResourceShape, StateCompatibility
+from cohestra_sdk import DeploymentSpec, ResourceShape, StateCompatibility
 
 orders = client.deployment("prod", "streaming", "orders")
 
@@ -136,7 +136,7 @@ client.unfreeze_cluster("prod", "streaming",
 See [Autoscaling Overview](../autoscaling/overview) for building custom autoscalers with the SDK.
 
 ```python
-from maestro_sdk import AutoscalerBase, ScaleDecision
+from cohestra_sdk import AutoscalerBase, ScaleDecision
 
 class MyAutoscaler(AutoscalerBase):
     def evaluate(self, status: dict) -> ScaleDecision | None:

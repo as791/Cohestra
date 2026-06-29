@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Maestro — Flink Control Plane
+  title: Cohestra — Control Plane
   version: 0.1.0
   license:
     name: Apache-2.0

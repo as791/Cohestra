@@ -11,10 +11,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/maestro-flink/maestro/control"
-	"github.com/maestro-flink/maestro/internal/api"
-	"github.com/maestro-flink/maestro/internal/auth"
-	"github.com/maestro-flink/maestro/internal/config"
+	"github.com/cohestra-project/cohestra/control"
+	"github.com/cohestra-project/cohestra/internal/api"
+	"github.com/cohestra-project/cohestra/internal/auth"
+	"github.com/cohestra-project/cohestra/internal/config"
 	"go.temporal.io/sdk/client"
 )
 

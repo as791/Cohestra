@@ -6,6 +6,8 @@ bin/
 coverage.out
 graphify-out/
 .claude/settings.local.json
+**/target/
+**/__pycache__/
 
 
 # compiled example binaries

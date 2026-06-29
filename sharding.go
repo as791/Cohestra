@@ -1,4 +1,4 @@
-package maestro
+package cohestra
 
 import (
 	"fmt"

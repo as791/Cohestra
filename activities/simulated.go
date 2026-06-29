@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/maestro-flink/maestro/domain"
+	"github.com/cohestra-project/cohestra/domain"
 	"go.temporal.io/sdk/activity"
 )
 

@@ -4,15 +4,15 @@ slug: /
 title: Introduction
 ---
 
-# Maestro — Flink Control Plane
+# Cohestra — Control Plane
 
 **Open-source deployment management for Apache Flink on any Kubernetes cluster.**
 
-Maestro is an Apache 2.0-licensed control plane that manages the full lifecycle of stateful Apache Flink deployments. It replaces proprietary managed services like AWS Managed Service for Apache Flink (MSF) with an open, portable solution that runs on any Kubernetes cluster — EKS, GKE, AKS, or on-prem.
+Cohestra is an Apache 2.0-licensed control plane that manages the full lifecycle of stateful Apache Flink deployments. It replaces proprietary managed services like AWS Managed Service for Apache Flink (MSF) with an open, portable solution that runs on any Kubernetes cluster — EKS, GKE, AKS, or on-prem.
 
-## Why Maestro?
+## Why Cohestra?
 
-| Pain Point | Managed Services | Maestro |
+| Pain Point | Managed Services | Cohestra |
 |---|---|---|
 | **Vendor lock-in** | Locked to one cloud | Any Kubernetes cluster |
 | **Flink version lag** | Months behind OSS | Day-one support for Flink 2.x |
@@ -32,10 +32,10 @@ Maestro is an Apache 2.0-licensed control plane that manages the full lifecycle 
 
 ## Architecture at a Glance
 
-Maestro uses the **actor model** implemented via long-running Temporal workflows — the same pattern [used by Netflix to orchestrate 12,000+ Flink clusters](https://temporal.io/resources/on-demand/actor-workflows-reliably-orchestrating-thousands-of-flink-clusters-at).
+Cohestra uses the **actor model** implemented via long-running Temporal workflows — the same pattern [used by Netflix to orchestrate 12,000+ Flink clusters](https://temporal.io/resources/on-demand/actor-workflows-reliably-orchestrating-thousands-of-flink-clusters-at).
 
 ```
-SDK / CLI / CI  →  Maestro API Server  →  Temporal Server
+SDK / CLI / CI  →  Cohestra API Server  →  Temporal Server
                                               ↓
                                         DeploymentActor (long-running)
                                           ↙          ↘
@@ -49,9 +49,9 @@ Each Flink deployment gets a dedicated **DeploymentActor** workflow that seriali
 ## Quick Install
 
 ```bash
-helm repo add maestro https://maestro-flink.github.io/charts
-helm install maestro maestro/maestro \
-  --namespace maestro-system --create-namespace \
+helm repo add cohestra https://cohestra-project.github.io/charts
+helm install cohestra cohestra/cohestra \
+  --namespace cohestra-system --create-namespace \
   --set temporal.enabled=true
 ```
 

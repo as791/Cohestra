@@ -1,7 +1,7 @@
-// Package kubernetes implements the Maestro activities.Backend contract against a
+// Package kubernetes implements the Cohestra activities.Backend contract against a
 // real Apache Flink Kubernetes Operator (>= 1.15) by reconciling FlinkDeployment
 // and FlinkStateSnapshot custom resources. It is a separate Go module so that
-// the public Maestro core library does not take a client-go dependency.
+// the public Cohestra core library does not take a client-go dependency.
 package kubernetes
 
 import (
@@ -13,8 +13,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/maestro-flink/maestro/activities"
-	"github.com/maestro-flink/maestro/domain"
+	"github.com/cohestra-project/cohestra/activities"
+	"github.com/cohestra-project/cohestra/domain"
 	corev1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -27,12 +27,12 @@ import (
 	"k8s.io/client-go/tools/cache"
 )
 
-const fieldManager = "maestro"
+const fieldManager = "cohestra"
 
 // Config tunes the Kubernetes backend.
 type Config struct {
 	// LeaseNamespace is where capacity-lease ConfigMaps are stored. It should be
-	// a namespace the worker can write to (typically the Maestro system namespace).
+	// a namespace the worker can write to (typically the Cohestra system namespace).
 	LeaseNamespace string
 	// SlotBudget caps total reserved task slots per node pool.
 	SlotBudget int
@@ -62,7 +62,7 @@ type Config struct {
 
 func (c *Config) withDefaults() {
 	if c.LeaseNamespace == "" {
-		c.LeaseNamespace = "maestro-system"
+		c.LeaseNamespace = "cohestra-system"
 	}
 	if c.SlotBudget <= 0 {
 		c.SlotBudget = 4096
@@ -328,7 +328,7 @@ func (b *Backend) RecordAudit(ctx context.Context, event activities.AuditEvent) 
 	now := metav1.NewTime(event.At)
 	k8sEvent := &corev1.Event{
 		ObjectMeta: metav1.ObjectMeta{
-			GenerateName: "maestro-",
+			GenerateName: "cohestra-",
 			Namespace:    event.Identity.Namespace,
 		},
 		InvolvedObject: corev1.ObjectReference{
@@ -340,7 +340,7 @@ func (b *Backend) RecordAudit(ctx context.Context, event activities.AuditEvent) 
 		Reason:         event.Type,
 		Message:        event.Message,
 		Type:           corev1.EventTypeNormal,
-		Source:         corev1.EventSource{Component: "maestro"},
+		Source:         corev1.EventSource{Component: "cohestra"},
 		FirstTimestamp: now,
 		LastTimestamp:  now,
 	}
@@ -366,7 +366,6 @@ func (b *Backend) getFlinkDeployment(ctx context.Context, namespace, name string
 	}
 	return b.dyn.Resource(flinkDeploymentGVR).Namespace(namespace).Get(ctx, name, metav1.GetOptions{})
 }
-
 
 func randID() string {
 	buf := make([]byte, 8)

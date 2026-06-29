@@ -1,7 +1,7 @@
 apiVersion: v2
-name: maestro
+name: cohestra
 description: >-
-  Maestro — Temporal-backed control plane that operates Apache
+  Cohestra — Temporal-backed control plane that operates Apache
   Flink jobs via your own Flink Kubernetes Operator. Bring your own operator and
   Flink jobs; point at your own Temporal, or bundle one for trials.
 type: application
@@ -11,7 +11,7 @@ keywords:
   - flink
   - temporal
   - control-plane
-  - maestro
-home: https://github.com/maestro-flink/maestro
+  - cohestra
+home: https://github.com/cohestra-project/cohestra
 sources:
-  - https://github.com/maestro-flink/maestro
+  - https://github.com/cohestra-project/cohestra
