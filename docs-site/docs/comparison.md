@@ -53,7 +53,7 @@ Switching away from MSF means rewriting CloudFormation templates, migration tool
 
 ### From MSF to Cohestra on EKS
 
-1. **Set up Cohestra** — See [EKS Deployment Guide](./eks-deployment)
+1. **Set up Cohestra** — Install the Helm chart on your Kubernetes cluster
 2. **Containerize your Flink job** — Build a Docker image with your JAR
 3. **Register with Cohestra** — `PUT /api/v1/deployments/{env}/{ns}/{name}`
 4. **Deploy** — `POST .../deploy` with your image digest

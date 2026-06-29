@@ -129,7 +129,5 @@ Navigate to `http://localhost:8080` to see the Cohestra dashboard with deploymen
 
 ## Next Steps
 
-- [Scale your deployment](./api-reference#scale)
 - [Set up custom autoscaling](./autoscaling/overview)
-- [Deploy on EKS](./eks-deployment)
 - [Compare Cohestra vs AWS MSF](./comparison)
