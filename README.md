@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="internal/api/web/logo.png" width="120" height="120" alt="Cohestra Logo">
+  <img src="internal/api/web/logo.png" width="140" height="140" alt="Cohestra Logo">
   <h1>Cohestra</h1>
   <p><strong>Open-source control plane for Apache Flink on Kubernetes</strong></p>
 
