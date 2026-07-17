@@ -4,7 +4,7 @@ go 1.25.11
 
 require (
 	github.com/cohestra-project/cohestra v0.0.0
-	go.temporal.io/sdk v1.45.0
+	go.temporal.io/sdk v1.46.0
 	k8s.io/api v0.33.0
 	k8s.io/apimachinery v0.33.0
 	k8s.io/client-go v0.33.0
