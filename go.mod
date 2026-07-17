@@ -4,9 +4,9 @@ go 1.25.11
 
 require (
 	github.com/stretchr/testify v1.11.1
-	go.temporal.io/api v1.63.0
+	go.temporal.io/api v1.63.3
 	go.temporal.io/sdk v1.46.0
-	golang.org/x/oauth2 v0.34.0
+	golang.org/x/oauth2 v0.36.0
 	google.golang.org/protobuf v1.36.11
 	gopkg.in/yaml.v3 v3.0.1
 )
