@@ -1,7 +1,7 @@
 # Build the Kubernetes-backed Cohestra worker.
 # Build context MUST be the repository root so both modules and go.work are present:
 #   docker build -f backends/kubernetes/Dockerfile -t cohestra-k8s-worker .
-FROM golang:1.24-alpine AS build
+FROM golang:1.26-alpine AS build
 WORKDIR /src
 COPY . .
 RUN CGO_ENABLED=0 go build -trimpath -ldflags="-s -w" \
