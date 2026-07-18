@@ -10,12 +10,12 @@ image:
   pullPolicy: IfNotPresent
   pullSecrets: []
   controlApi:
-    repository: ghcr.io/cohestra-project/cohestra-control-api
+    repository: ghcr.io/cohestra/fcp-control-api
     tag: latest
   worker:
     # The worker MUST be the Kubernetes-backed image (backends/kubernetes), not
     # the simulated core worker.
-    repository: ghcr.io/cohestra-project/cohestra-k8s-worker
+    repository: ghcr.io/cohestra/fcp-k8s-worker
     tag: latest
 
 controlApi:

@@ -1,0 +1,41 @@
+name: Publish Images
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - image: fcp-control-api
+            dockerfile: Dockerfile
+            build-args: TARGET=control-api
+          - image: fcp-k8s-worker
+            dockerfile: backends/kubernetes/Dockerfile
+            build-args: ""
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          push: true
+          build-args: ${{ matrix.build-args }}
+          tags: |
+            ghcr.io/cohestra/${{ matrix.image }}:latest
+            ghcr.io/cohestra/${{ matrix.image }}:${{ github.sha }}
+          labels: |
+            org.opencontainers.image.source=https://github.com/Cohestra/cohestra-control-plane

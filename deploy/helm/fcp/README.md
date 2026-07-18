@@ -64,5 +64,5 @@ Bundled Temporal is single-replica with ephemeral storage — trials only.
 | `taskQueue.shards` | `1` | Task-queue sharding (see `docs/SCALING.md`) |
 | `worker.tuning.*` | — | Concurrency, activity rate, kube client QPS/burst |
 
-Images default to `ghcr.io/as791/fcp-control-api` and `ghcr.io/as791/fcp-k8s-worker`;
+Images default to `ghcr.io/cohestra/fcp-control-api` and `ghcr.io/cohestra/fcp-k8s-worker`;
 override `image.*.repository`/`tag` to use your registry.
