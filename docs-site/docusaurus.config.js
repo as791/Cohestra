@@ -18,6 +18,19 @@ const config = {
 
   i18n: { defaultLocale: 'en', locales: ['en'] },
 
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'dataflow',
+        path: 'dataflow',
+        routeBasePath: 'dataflow',
+        sidebarPath: './sidebars-dataflow.js',
+        editUrl: 'https://github.com/Cohestra/cohestra-control-plane/tree/main/docs-site/',
+      },
+    ],
+  ],
+
   presets: [
     [
       'classic',
@@ -52,7 +65,8 @@ const config = {
           height: 56,
         },
         items: [
-          { type: 'docSidebar', sidebarId: 'docsSidebar', position: 'left', label: 'Docs' },
+          { type: 'docSidebar', sidebarId: 'docsSidebar', position: 'left', label: 'Control Plane' },
+          { to: '/dataflow/', label: 'DataFlow', position: 'left' },
           { to: '/docs/sdk/python', label: 'Python SDK', position: 'left' },
           { to: '/docs/sdk/go', label: 'Go SDK', position: 'left' },
           { to: '/docs/sdk/java', label: 'Java SDK', position: 'left' },
@@ -92,8 +106,9 @@ const config = {
           {
             title: 'Products',
             items: [
-              { label: 'Control Plane', href: 'https://github.com/Cohestra/cohestra-control-plane' },
-              { label: 'DataFlow', href: 'https://github.com/Cohestra/cohestra-dataflow' },
+              { label: 'Control Plane Docs', to: '/docs/' },
+              { label: 'DataFlow Docs', to: '/dataflow/' },
+              { label: 'DataFlow App', href: 'https://dataflow.cohestra.dev' },
             ],
           },
           {

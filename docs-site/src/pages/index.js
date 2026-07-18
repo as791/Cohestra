@@ -58,6 +58,7 @@ const products = [
     ],
     links: [
       { label: 'Sign in', href: 'https://dataflow.cohestra.dev/login', primary: true },
+      { label: 'Documentation', to: '/dataflow/' },
       { label: 'GitHub', href: 'https://github.com/Cohestra/cohestra-dataflow' },
     ],
   },
